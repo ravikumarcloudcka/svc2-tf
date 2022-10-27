@@ -5,20 +5,21 @@ phases:
     commands:
       - echo Logging in to Amazon ECR...
       - aws --version
-      - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 010214337392.dkr.ecr.ap-south-1.amazonaws.com
-      - REPOSITORY_URI=010214337392.dkr.ecr.ap-south-1.amazonaws.com/service2
+      - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin $SVC2-REPO-ID.dkr.ecr.ap-south-1.amazonaws.com
+      - REPOSITORY_URI=$SVC2-REPO
+      - SVC=$SVC2-NAME
   build:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build -t service2 .
-      - docker tag service2:latest $REPOSITORY_URI:latest
+      - docker build -t $SVC .
+      - docker tag $SVC:latest $REPOSITORY_URI:latest
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker images...
       - docker push $REPOSITORY_URI:latest
       - echo Writing image definitions file...
-      - printf '[{"name":"service2","imageUri":"%s"}]' $REPOSITORY_URI:latest > imagedefinitions.json
+      - printf '[{"name":"$SVC","imageUri":"%s"}]' $REPOSITORY_URI:latest > imagedefinitions.json
 artifacts:
     files: imagedefinitions.json

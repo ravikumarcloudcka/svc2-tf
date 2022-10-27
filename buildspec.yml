@@ -5,9 +5,9 @@ phases:
     commands:
       - echo Logging in to Amazon ECR...
       - aws --version
-      - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin $SVC2-REPO-ID.dkr.ecr.ap-south-1.amazonaws.com
-      - REPOSITORY_URI=$SVC2-REPO
-      - SVC=$SVC2-NAME
+      - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin $SVC2_REPO_ID.dkr.ecr.ap-south-1.amazonaws.com
+      - REPOSITORY_URI=$SVC2_REPO
+      - SVC=$SVC2_NAME
   build:
     commands:
       - echo Build started on `date`
